@@ -1,0 +1,31 @@
+{
+  "f6": {
+    "vectors": 48,
+    "orthogonal_pairs": 300,
+    "mub_pairs": 144,
+    "bases": 16,
+    "no_mub_pair_between_bases": true,
+    "non_edge_margin": 0.43078061834693493,
+    "edge_error": 9.769962616701378e-15
+  },
+  "s6": {
+    "vectors": 90,
+    "orthogonal_pairs": 0,
+    "mub_pairs": 1125,
+    "bases": 0,
+    "reason": "no orthogonal pair exists among the 90 candidates"
+  },
+  "facts": {
+    "f6_ortho": 600,
+    "f6_mub": 288,
+    "s6_ortho": 0,
+    "s6_mub": 2250
+  },
+  "sha256": {
+    "f6_ortho.facts": "2e17b723808d89adbd4d13087db9a6f03d10203d573c7faa5cb117ea81f52927",
+    "f6_mub.facts": "19df4cf2f0b51c9df155d781726357ba8940741e792fe0720aec12aafd6d3a83",
+    "s6_ortho.facts": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "s6_mub.facts": "0393dfe4645b47ba00121dad71e1566ee774b6f107a11e20456d8170628c3f56"
+  },
+  "lean_certificate_sha256": "4920d631fd575e5f306b8b03fcbcd13d99c6e163b1399daf52d5e41eda0dc8d5"
+}

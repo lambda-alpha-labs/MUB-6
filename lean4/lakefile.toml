@@ -1,0 +1,5 @@
+name = "MUB6"
+defaultTargets = ["MUB6"]
+
+[[lean_lib]]
+name = "MUB6"

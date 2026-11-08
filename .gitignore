@@ -1,0 +1,27 @@
+# macOS / editor noise
+.DS_Store
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# C build artifacts
+*.o
+*.obj
+*.exe
+f6_bjorck_search
+f6_search
+
+# Lean / Lake build artifacts
+lean4/.lake/
+*.olean
+*.ilean
+*.trace
+
+# Graphenium and verification artifacts
+graphenium-out/
+*.log
+*.tmp

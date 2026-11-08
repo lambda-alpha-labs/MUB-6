@@ -1,0 +1,46 @@
+name: Verify
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: MUB-6 verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Lean 4 via elan
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf \
+            https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Install Graphenium
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download v0.24.0 \
+            --repo lambda-alpha-labs/Graphenium \
+            --pattern gm-linux-x86_64.tar.gz \
+            --dir "$RUNNER_TEMP" \
+            --clobber
+          tar -xzf "$RUNNER_TEMP/gm-linux-x86_64.tar.gz" -C "$RUNNER_TEMP"
+          sudo install -m 0755 "$RUNNER_TEMP/gm" /usr/local/bin/gm
+          gm --version
+
+      - name: Run all verification layers
+        run: make verify

@@ -1,0 +1,45 @@
+# ---------------------------------------------------------------------------
+# mub_cliques.dl
+#
+# Graphenium embedded Datalog program for the MUB-6 showcase.
+#
+# Run with:
+#   gm query "" --datalog "$(cat graphenium/mub_cliques.dl)" \
+#     --graph graphenium-out/f6_graph.json
+#
+# `graphenium/build_graph.py` encodes the mathematical relations as a small
+# synthetic Graphenium graph.  Graphenium's embedded EDB exposes the relation
+# names `calls`, `imports`, and `contains`, so the bridge maps:
+#
+#   orthogonality (i _|_ j)      -> calls(i, j, _)      (both directions)
+#   mutual unbiasedness (i # j)  -> imports(i, j, _)    (both directions)
+#   canonical order (i < j)      -> contains(i, j, _)   (one direction)
+#
+# The logic below is the same six-vertex clique / K_{6,6} enumeration as the
+# original Souffle reference, but evaluated by Graphenium itself.  The
+# `contains` atoms are interleaved with the adjacency atoms so every partial
+# clique stays in increasing vertex order; this keeps the join small.
+# ---------------------------------------------------------------------------
+
+clique6(A, B, C, D, E, F) :-
+  calls(A, B, _), calls(A, C, _), calls(B, C, _),
+  contains(A, B, _), contains(B, C, _),
+  calls(A, D, _), calls(B, D, _), calls(C, D, _),
+  contains(C, D, _),
+  calls(A, E, _), calls(B, E, _), calls(C, E, _), calls(D, E, _),
+  contains(D, E, _),
+  calls(A, F, _), calls(B, F, _), calls(C, F, _), calls(D, F, _), calls(E, F, _),
+  contains(E, F, _).
+
+mub_clique_pair(A, B, C, D, E, F, G, H, I, J, K, L) :-
+  clique6(A, B, C, D, E, F),
+  clique6(G, H, I, J, K, L),
+  contains(A, G, _),
+  imports(A, G, _), imports(A, H, _), imports(A, I, _), imports(A, J, _), imports(A, K, _), imports(A, L, _),
+  imports(B, G, _), imports(B, H, _), imports(B, I, _), imports(B, J, _), imports(B, K, _), imports(B, L, _),
+  imports(C, G, _), imports(C, H, _), imports(C, I, _), imports(C, J, _), imports(C, K, _), imports(C, L, _),
+  imports(D, G, _), imports(D, H, _), imports(D, I, _), imports(D, J, _), imports(D, K, _), imports(D, L, _),
+  imports(E, G, _), imports(E, H, _), imports(E, I, _), imports(E, J, _), imports(E, K, _), imports(E, L, _),
+  imports(F, G, _), imports(F, H, _), imports(F, I, _), imports(F, J, _), imports(F, K, _), imports(F, L, _).
+
+?- clique6(A, B, C, D, E, F), mub_clique_pair(A, B, C, D, E, F, G, H, I, J, K, L).
